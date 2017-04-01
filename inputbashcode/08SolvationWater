@@ -1,0 +1,14 @@
+
+SOLVATION
+  Div ndiv=3 min=0.5 ofac=0.8
+  Solv eps=78.39 rad=1.93 emp=0.0
+  Charged conv=1e-10 iter=1000 corr
+  Radii
+    N  = 1.608
+    C  = 1.700
+    O  = 1.517
+    H  = 1.350
+    P  = 1.850
+    Co = 1.858
+  SubEnd
+END

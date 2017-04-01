@@ -1,0 +1,3 @@
+#SBATCH -N 2
+#SBATCH --ntasks-per-node=8
+#SBATCH --partition=tc5

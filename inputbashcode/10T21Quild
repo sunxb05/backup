@@ -1,0 +1,2 @@
+
+cp quildjob.1.t21 $SLURM_SUBMIT_DIR/FILENAME.t21

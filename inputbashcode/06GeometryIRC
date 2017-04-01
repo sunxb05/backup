@@ -1,0 +1,9 @@
+
+RESTART $SLURM_SUBMIT_DIR/???
+
+GEOMETRY
+  IRC Points=500
+  OPTIM Cartesian
+  ITERATIONS 99
+  CONVERGE e=1e-5 grad=1e-4 rad=1e-3 angle=0.1
+END

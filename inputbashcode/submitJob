@@ -1,0 +1,9 @@
+#!/bin/bash
+
+string="$1"
+short=${string%.*p}
+inputfile=$(<$string)
+inputfile=${inputfile//FILENAME/$short}
+echo "$inputfile" > "$string"
+
+sbatch "$string"

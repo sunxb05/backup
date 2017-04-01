@@ -1,0 +1,7 @@
+#!/bin/bash
+
+InputName=$1
+submit="${InputName}.inp"
+pyfraginput="${InputName}PyFragInput"
+cp /scistor/tc/hbn980/PyFrag/TemplatePyFragInput $pyfraginput
+cp /scistor/tc/hbn980/PyFrag/TemplateSubmitScript $submit

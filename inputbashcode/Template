@@ -1,0 +1,85 @@
+#! /bin/bash
+
+export MAKEDIR=/scistor/tc/hbn980/PhD/Cobalt/Templates
+
+#Checks if a fifth argument is present (which should be the input file)
+#If not, the program exits.
+if [ -z "$5" ]; then
+  echo No fifth argument supplied \(should be the to be made input file\). Nothing is done.
+  exit 1
+fi
+
+#Building the new template
+{
+cat $MAKEDIR/01SbatchStart
+
+if [ "$1" == "5" ]; then
+  cat $MAKEDIR/02SbatchTC5
+elif [ "$1" == "52" ]; then
+  cat $MAKEDIR/02SbatchTC52
+elif [ "$1" == "6" ]; then
+  cat $MAKEDIR/02SbatchTC6
+else
+  echo ERROR: Only \"5\" or \"6\" are accepted as the first argument
+fi
+
+cat $MAKEDIR/03General
+
+if [ "$2" == "adf" ]; then
+  cat $MAKEDIR/04ProgramADF
+elif [ "$2" == "quild" ]; then
+  cat $MAKEDIR/04ProgramQuild
+else
+  echo ERROR: only \"adf\" or \"quild\" are accepted as the second argument
+fi
+
+cat $MAKEDIR/05Atoms
+
+if [ "$3" == "G" ]; then
+  cat $MAKEDIR/06GeometryOpt
+elif [ "$3" == "F" ]; then
+  cat $MAKEDIR/06Frequency
+elif [ "$3" == "GF" ]; then
+  cat $MAKEDIR/06GeometryOpt
+  cat $MAKEDIR/06Frequency
+elif [ "$3" == "TS" ]; then
+  cat $MAKEDIR/06GeometryTS
+  cat $MAKEDIR/06Frequency
+elif [ "$3" == "LT" ]; then
+  cat $MAKEDIR/06GeometryLT
+elif [ "$3" == "IRC" ]; then
+  cat $MAKEDIR/06GeometryIRC
+elif [ "$3" == "SP" ]; then
+  cat $MAKEDIR/06GeometrySP
+else
+  echo ERROR: only \"G\", \"F\", \"GF\", \"TS\", \"LT\" or \"IRC\" are accepted as the third argument
+fi
+
+if [ "$2" == "quild" ] && ( [ "$3" == "G" ] || [ "$3" == "GF" ] ); then
+  cat $MAKEDIR/07QuildGeo
+elif [ "$2" == "quild" ] && [ "$3" == "TS" ]; then
+  cat $MAKEDIR/07QuildTS
+fi
+  
+if [ "$4" == "gas" ]; then
+  :
+elif [ "$4" == "water" ]; then
+  cat $MAKEDIR/08SolvationWater
+else
+  echo ERROR: only \"gas\" or \"water\" are accepted as the fourth argument
+fi
+
+cat $MAKEDIR/09NoChanges
+
+if [ "$2" == "adf" ]; then
+  cat $MAKEDIR/10T21ADF
+elif [ "$2" == "quild" ]; then
+  cat $MAKEDIR/10T21Quild
+fi
+
+} > $5
+
+grep ERROR $5
+if [ $? -ne 1 ]; then
+  rm -f $5
+fi 

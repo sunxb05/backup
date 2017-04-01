@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#SBATCH -J FILENAME
+#SBATCH -t 240:00:00
+#SBATCH --output=FILENAME.out
+#SBATCH --error=FILENAME.err
+/Users/xiaobosun/Downloads/Temp/02SbatchTC5

@@ -1,0 +1,15 @@
+The lines below anything with a colon should only (!) contain the requested information, otherwise the script will not work.
+
+
+Filename:
+testfile
+Number of atoms:
+14
+Solvent used:
+water
+Charge of the system:
+0
+First atom between which the distance should be calculated (numbered as in the .amv file):
+10
+Second atom between which the distance should be calculated:
+11

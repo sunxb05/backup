@@ -1,0 +1,3 @@
+!/bin/bash
+
+cp /scistor/tc/hbn980/PhD/Cobalt/Templates/TemplateInputfileSplitAMV $1

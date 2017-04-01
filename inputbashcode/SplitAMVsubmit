@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#check if variables are given
+if [[ $# -ne 1 ]] ; then
+    echo "Too few or too many arguments supplied, the only argument should be the inputfile."
+    exit 1
+fi
+
+inputfile=$1
+filename=$(grep -A 1 Filename $inputfile | tail -1)
+
+max=$(ls -l *inp | tail -1)
+max=${max:(-7):3}
+
+i=1
+
+while [ $i -le $max ] ; do
+    n=$(printf "%03d" $i)
+    submitfile=${filename}${n}".inp"
+    submitJob "$submitfile"
+    ((i+=1))
+done

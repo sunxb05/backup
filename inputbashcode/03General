@@ -1,0 +1,5 @@
+
+export NSCM=8
+export SCM_TMPDIR=$TMPDIR
+#export SCM_DEBUG=yes
+cd $SCM_TMPDIR

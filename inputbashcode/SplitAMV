@@ -1,0 +1,61 @@
+#! /bin/bash
+
+#check if variables are given
+if [[ $# -ne 1 ]] ; then
+    echo "Too few or too many arguments supplied, the only argument should be the inputfile."
+    exit 1
+fi
+
+scriptinput=$1
+
+filename=$(grep -A 1 Filename $scriptinput | tail -1)
+atomcount=$(grep -A 1 atoms $scriptinput | tail -1)
+solvent=$(grep -A 1 Solvent $scriptinput | tail -1)
+charge=$(grep -A 1 Charge $scriptinput | tail -1)
+atomone=$(grep -A 1 First\ atom $scriptinput | tail -1)
+atomtwo=$(grep -A 1 Second\ atom $scriptinput | tail -1)
+
+charge="CHARGE "$charge
+
+#store the arguments in variables
+#filename=$1
+#atomcount=$2
+#solvent=$4
+#charge=$3
+#atomone=$5
+#atomtwo=$6
+
+#counts the amount of structures in the input file
+structures=$(grep -c Converged $filename)
+i=1
+while [ $i -le $structures ]
+do
+    n=$(printf "%03d" $i)
+    coordinatesname=${filename}${n}
+    grep -m $i -A $atomcount Converged $filename | tail -n $atomcount > $coordinatesname
+    input=$coordinatesname".inp"
+    /scistor/tc/xsn800/Temp/Template 5 adf SP $solvent $input #creates an inputfile using the 'Template' script
+    coordinates=$(<$coordinatesname)
+    coordinates=${coordinates///}
+    awk -v r="$coordinates" '{sub("PLACEHOLDERATOM",r,$0); print}' $input > inputtemporary;
+    #collect the atomcoordinates and write to variables
+    head -n $atomone $coordinatesname | tail -1 > tempatoms
+    distatoms=$(<tempatoms)
+    distatoms=${distatoms:2} #remove the leading atom descriptor and space
+    head -n $atomtwo $coordinatesname | tail -1 > tempatoms 
+    distatoms2=$(<tempatoms)
+    distatoms2=${distatoms2:1} #remove the leading atom descriptor, but keeping the space
+    distatoms=${distatoms}${distatoms2}
+    echo "$distatoms" > tempatoms
+    awk '{ dx = $1 - $4; dy = $2 - $5; dz = $3 - $6; dist = sqrt(dx ^ 2 + dy ^ 2 + dz ^ 2); print dist }'\
+ tempatoms > tempdistance #calculate the distance between the atoms specified in the input
+    
+    distance=$(<tempdistance) 
+    awk -v c="$charge" -v dist="$distance" '{sub("CHARGE 0",c); sub("DISTANCE",dist); print}' \
+inputtemporary > "$input"
+    ((i+=1))
+    rm -f $coordinatesname
+done
+
+#cleanup
+rm -f tempatoms tempdistance inputtemporary

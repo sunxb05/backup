@@ -1,0 +1,29 @@
+
+SCF
+  ITERATIONS 99
+  CONVERGE 0.000001 0.000001
+  MIXING 0.20
+END
+
+BASIS
+  type TZ2P
+  core None
+END
+
+XC
+  GGA BLYP
+  Dispersion Grimme3 BJDAMP
+END
+
+BECKEGRID
+  Quality good
+END
+
+ZLMFIT
+  Quality good
+END
+
+Relativistic Scalar ZORA
+
+ENDINPUT
+eor

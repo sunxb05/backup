@@ -1,0 +1,7 @@
+
+GEOMETRY
+  TransitionState
+  OPTIM Cartesian
+  ITERATIONS 199
+  CONVERGE e=1e-5 grad=1e-4 rad=1e-3 angle=0.1
+END
