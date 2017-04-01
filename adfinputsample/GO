@@ -1,0 +1,60 @@
+#!/bin/bash
+#SBATCH -J input
+#SBATCH -N 1
+#SBATCH -t 48:00:00
+#SBATCH --partition=tc6
+#SBATCH --output=%job.stdout
+#SBATCH --error=%job.stderr
+
+export NSCM=16
+export SCM_TMPDIR=$TMPDIR
+srun mkdir -p $SCM_TMPDIR
+cd $SCM_TMPDIR
+
+$ADFBIN/adf<<eor
+
+TITLE  RC=H
+
+XC
+  GGA OPBE
+END
+
+RELATIVISTIC SCALAR ZORA
+
+BECKEGRID
+  Quality VeryGood
+END
+
+BASIS
+TYPE TZ2P
+Core Small
+END
+
+SCF
+ITERATIONS 999
+CONVERGE 0.000001
+MIXING 0.20
+END
+
+Geometry
+Optim Delocal
+ITERATIONS 999
+CONVERGE 0.00001
+End
+
+SYMMETRY  AUTO
+CHARGE    0 0
+
+ATOMS
+PLACEHOLDERATOM
+END
+
+END INPUT
+eor
+
+filename=$(basename "$SLURM_SUBMIT_DIR")
+cp TAPE21 $SLURM_SUBMIT_DIR/$filename.t21
+srun rm -rf $SCM_TMPDIR
+
+
+
