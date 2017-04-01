@@ -1,0 +1,37 @@
+#!/usr/bin/env python
+
+import os, string, re, math, sys
+
+
+
+input = open(sys.argv[1], 'r')
+adfscript = input.read()
+input.close()
+
+# check the adfscript and retrive a ordered sequence as the name of the file.
+specs = re.compile(r'Converged\s*Geometry\s\d*', re.DOTALL).findall(adfscript)
+specs_1 = ''.join(specs)
+specs_2 = re.compile(r'Converged\s*Geometry', re.DOTALL).sub('', specs_1)
+specs_3 = specs_2.split()
+specs_3.reverse()
+
+# read data and seperated into files
+for item in specs_3:
+   file = item + ".irc_xyz"
+   specs_4 = re.compile(r'Converged\s*Geometry\s+%s+[,].*' % item, re.DOTALL).findall(adfscript)
+   specs_5 = ''.join(specs_4)
+   with open(file,"w") as f:
+     f.write(specs_5)
+   f.close()
+   adfscript = re.compile(r'%s' % specs_5, re.DOTALL).sub('', adfscript)
+
+# collect data from different files to form a big file
+for item in specs_3:
+  filename = item + ".irc_xyz"
+  with open(filename,"r") as f:
+    data = f.read()
+  f.close()
+  with open("irc_order.amv","a") as f:
+    f.write(data)
+  f.close()
+  os.remove(filename)
