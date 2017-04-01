@@ -1,0 +1,20 @@
+%chk=gaussianIRC.chk
+%nproc=16
+%mem=16GB
+#blyp irc=(calcall,maxpoint=400,forward) use=l115 
+
+IRC calculation for gaussian
+
+0 1
+PLACEHOLDERATOM
+
+C H O P 0
+6-31g(d)
+****
+Pd 0
+TZP
+****
+
+Pd 0
+TZP
+

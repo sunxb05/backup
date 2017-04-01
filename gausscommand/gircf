@@ -1,0 +1,17 @@
+#! /bin/bash
+binpath=/home/x2sun/bin
+script=$binpath/gsubinput
+script_1=$binpath/gaussinputsample/IRCF
+jobname=$1
+jobname_1="${jobname%.*}".com
+awk -v r="$jobname_1" '{sub("PLACEJOBNAME",r,$0); print}' $script > gsub
+
+
+cp $jobname coordinate
+coordinatenew=coordinate
+sed -i '1,2d' $coordinatenew
+coordinates=$(<$coordinatenew)
+awk -v r="$coordinates" '{sub("PLACEHOLDERATOM",r,$0); print}' $script_1 > $jobname_1
+
+#qsub gsub
+rm coordinate

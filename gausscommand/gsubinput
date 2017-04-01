@@ -1,0 +1,29 @@
+#!/bin/bash
+#PBS -N gaussian
+#PBS -l walltime=48:00:00
+#PBS -l nodes=1:ppn=16
+#PBS -o $PBS_JOBID.stdout
+#PBS -e $PBS_JOBID.stderr
+
+
+
+module load g09/A02
+
+export Project=PLACEJOBNAME
+
+export CurrDir=$PBS_O_WORKDIR
+export G09_WORKDIR="$TMPDIR"
+
+cd $CurrDir
+cp  *.com  $G09_WORKDIR
+echo cp -v *.inp $G09_WORKDIR
+## start the calculation ####
+
+cd $G09_WORKDIR
+
+g09  $G09_WORKDIR/$Project 
+### Copy back the files ####
+cp  -u -v *.chk *.log  $CurrDir
+
+### Clean WorkDir ###
+rm -rf $G09_WORDIR

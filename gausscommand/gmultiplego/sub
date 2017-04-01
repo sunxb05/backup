@@ -1,0 +1,13 @@
+#!/bin/bash
+
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+
+for f in $SCRIPTPATH/geometry/geometry_*
+
+do
+
+cd $f
+
+sh bat 
+
+done
