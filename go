@@ -12,3 +12,4 @@ sbatch input
 
 
 rm coordinatefix
+
