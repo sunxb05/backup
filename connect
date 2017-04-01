@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+
+import os, string, re, math, sys
+
+
+input = open(sys.argv[1], 'r')
+adfscript = input.read()
+input.close()
+
+input_1 = open(sys.argv[2], 'r')
+adfscript_1 = input_1.read()
+input_1.close()
+
+# collect data from different files to form a big file
+with open("irc.amv","a") as f:
+  f.write(adfscript)
+  f.write(adfscript_1)
+f.close()
