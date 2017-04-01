@@ -1,0 +1,19 @@
+The manuscript I sent to you yesterday only work for Gaussian 03 version. Now I updated it to Gaussian 09 version and the third code 
+
+need small memory and run fast, but you need install python 3.5  and pyparsing module.
+
+In order to use pyparsing, you have to install it in your python library, and this is the website showing how to do that.
+
+http://pyparsing.wikispaces.com/Download+and+Installation
+
+Please notice this code only reads from the second point of IRC calculation. Also please notice it doesn't include all type of atoms in its label:
+
+number_to_label = {'1': 'H', '6': 'C', '7': 'N', '8': 'O'}
+
+If you have other type of atoms you can add it by yourself.
+
+The other piece of code, gaussircdata_09.py, doesn't need external library and it reads all points of IRC except your transition state point
+
+because I think sometimes people may not want to read it. Again it can read transition state by simply changing one line of code:
+
+from "loop = []" to "loop = [1]".
