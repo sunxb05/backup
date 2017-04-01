@@ -1,0 +1,9 @@
+#! /bin/bash
+
+script=$1
+
+awk -v r="END INPUT" '{sub("^eor",r,$0); print}' $script > input
+
+echo "eor" >> input
+
+sbatch pyfragsub

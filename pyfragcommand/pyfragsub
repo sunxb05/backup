@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH -J pyfrag_input 
+#SBATCH -N 1
+#SBATCH -t 12:00:00
+#SBATCH --partition=tc6
+#SBATCH --output=%job.stdout
+#SBATCH --error=%job.stderr
+
+export NSCM=16
+export SCM_TMPDIR=$TMPDIR
+#export SCM_DEBUG=yes
+cd $SCM_TMPDIR
+
+/scistor/tc/xsn800/bin/pyfrag.py $SLURM_SUBMIT_DIR/input
+
