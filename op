@@ -1,0 +1,25 @@
+#! /bin/bash
+
+script=$1
+rm *err *out *run
+mv fragmentfiles framentfiles_old
+mv  fragment_energies.txt fragment_energies_old.txt
+mv fragment_energies_1.txt fragment_energies_1_old.txt
+mv irc.amv irc_old.amv
+mv irc_1.amv irc_1_old.amv
+coordinate="
+type = IRC
+save tape21s
+print SFO overlap HOMO|LUMO
+print SFO overlap LUMO|HOMO
+Print SFO population frag2 HOMO
+print SFO population frag1 LUMO
+Print SFO population frag2 LUMO
+print SFO population frag1 HOMO
+Print Orb Energy frag2 HOMO
+print Orb Energy frag1 LUMO
+Print Orb Energy frag2 LUMO
+print Orb Energy frag1 HOMO
+make gnuplot 
+"
+awk -v r="$coordinate" '{sub("type = IRC",r,$0); print}' $script > input_1
