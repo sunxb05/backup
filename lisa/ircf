@@ -1,0 +1,14 @@
+#! /bin/bash
+binpath=/home/x2sun/bin
+script=$binpath/inputsample/IRCF
+coordinates=$1
+cp $coordinates coordinatefix
+coordinatenew=coordinatefix
+
+sed -i '1d' $coordinatenew
+coordinate=$(<$coordinatenew)
+awk -v r="$coordinate" '{sub("PLACEHOLDERATOM",r,$0); print}' $script > input.in
+
+#sub -i input.in -t 48 -p 16
+
+rm coordinatefix

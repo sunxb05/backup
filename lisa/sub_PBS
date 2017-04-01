@@ -1,0 +1,27 @@
+#PBS -N feco4-s186
+#PBS -o feco4-s186.osub
+#PBS -e feco4-s186.esub
+#PBS -l walltime=48:00:00
+#PBS -l nodes=1:cores16:ppn=16
+
+#PBS -S /bin/bash
+echo start of job in directory $PBS_O_WORKDIR
+echo the allocated node is:
+cat $PBS_NODEFILE
+
+
+export xscript=feco4-s186
+
+
+export hdr=`basename $PBS_O_WORKDIR`
+export SCM_TMPDIR=$TMPDIR/${hdr}
+
+
+echo "homedir: "${hdr}
+cp -r $PBS_O_WORKDIR $TMPDIR
+cd $TMPDIR/${hdr}
+
+./${xscript}.in
+ wait
+ cp * $PBS_O_WORKDIR/.
+ wait

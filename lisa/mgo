@@ -1,0 +1,4 @@
+#! /bin/bash
+
+script=$1
+cp -r /home/x2sun/bin/multiplego $script
