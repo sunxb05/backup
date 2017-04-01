@@ -1,0 +1,21 @@
+NORMAL TERMINATION
+NORMAL TERMINATION
+NORMAL TERMINATION
+NORMAL TERMINATION
+NORMAL TERMINATION
+NORMAL TERMINATION
+NORMAL TERMINATION
+NORMAL TERMINATION
+NORMAL TERMINATION
+NORMAL TERMINATION
+Could not read preset: couldn't open "/cm/shared/apps/adf2016.102/bin/adfinput.tpl/ethene_blyp_transit.tpl": no such file or directory
+Could not read preset: couldn't open "/cm/shared/apps/adf2016.102/bin/adfinput.tpl/ethene_blyp_transit.tpl": no such file or directory
+Could not read preset: couldn't open "/cm/shared/apps/adf2016.102/bin/adfinput.tpl/ethene_blyp_transit.tpl": no such file or directory
+/usr/bin/rm: cannot remove ‘/tmp/.XIM-unix’srun: error: node130: task 0: Exited with exit code 1
+: Operation not permitted
+/usr/bin/rm: cannot remove ‘/tmp/.X11-unix’: Operation not permitted
+/usr/bin/rm: cannot remove ‘/tmp/.ICE-unix’: Operation not permitted
+/usr/bin/rm: cannot remove ‘/tmp/prolog.log’: Operation not permitted
+/usr/bin/rm: cannot remove ‘/tmp/.Test-unix’: Operation not permitted
+/usr/bin/rm: cannot remove ‘/tmp/.font-unix’: Operation not permitted
+/usr/bin/rm: cannot remove ‘/tmp/systemd-private-94d3085f69cd48b0a5fb8c77de4830b2-ntpd.service-4eWWNK’: Operation not permitted

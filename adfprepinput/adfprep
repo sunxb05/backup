@@ -1,0 +1,43 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -t 5:00
+#SBATCH --partition=tc6
+#SBATCH --output=%job.stdout
+#SBATCH --error=%job.stderr
+
+SCM_TMPDIR=$TMPDIR/$SLURM_JOBID
+srun mkdir -p $SCM_TMPDIR
+cd $SCM_TMPDIR
+export TC_SUBMISSION_DIR=$SLURM_SUBMIT_DIR
+
+rm -f runset
+for  angle in {95..100..1}
+do
+    "$ADFBIN/adfprep" -t "$TC_SUBMISSION_DIR/GO.adf" -m "$TC_SUBMISSION_DIR/final.xyz" -angle "2 1 3 $angle" -j `basename $angle`>> runset
+done
+
+
+#for f in $SLURM_SUBMIT_DIR/*.xyz
+#do
+#    "$ADFBIN/adfprep" -t "$TC_SUBMISSION_DIR/GO.adf" -m "$f" -j `basename $f .xyz`>> runset
+#done
+
+chmod +x runset
+./runset
+
+for f in *.t21
+do
+
+     "cp" "$f"  $SLURM_SUBMIT_DIR
+     "cp" *.out $SLURM_SUBMIT_DIR
+done
+
+echo Results
+
+for f in *.t21
+do
+    "$ADFBIN/adfreport" "$f" BondingEnergy
+
+done
+
+echo Ready

@@ -1,0 +1,67 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -t 48:00:00
+#SBATCH --partition=tc5
+export SCM_TMPDIR=$TMPDIR
+export NSCM=16
+#export SCM_DEBUG=yes
+srun mkdir -p $SCM_TMPDIR
+cd $SCM_TMPDIR
+#export SCM_DEBUG=yes
+$ADFBIN/adf <<eor>$SLURM_SUBMIT_DIR/ethene_blyp_transit.out
+
+TITLE ethene_blyp_transit 
+
+XC
+ GGA BLYP
+ DISPERSION Grimme3 BJDAMP
+END
+
+BASIS
+  type TZ2P
+  core Small
+END
+
+Geometry
+optim deloc
+converge 0.00001 
+iterations 200 
+transit 3
+End
+
+Constraints
+  DIST 1 2 start=1.183 end=1.473
+End
+
+NumericalQuality Good
+
+CHARGE 0
+
+SYMMETRY C(S)
+
+SCF
+iterations 199
+END
+
+ATOMS
+    1.C        -0.000000    0.000000    0.666639
+    2.C        -0.000000    0.000000   -0.666639
+    3.H        -0.000000   -0.925913    1.239028
+    4.H        -0.000000    0.925913    1.239028
+    5.H        -0.000000   -0.925913   -1.239028
+    6.H        -0.000000    0.925913   -1.239028
+END
+
+ENDINPUT
+eor
+
+mv TAPE21 main.t21
+mkdir -p "$SLURM_SUBMIT_DIR/ethene_blyp_transit.results"
+rm -rf "$SLURM_SUBMIT_DIR/ethene_blyp_transit.results/sp"*
+"$ADFBIN/adfprep" -t "$SLURM_SUBMIT_DIR/ethene_blyp_transit" -m main.t21#lt -j "ethene_blyp_transit.results/sp" -logfile "$SLURM_SUBMIT_DIR/ethene_blyp_transit.logfile" -runtype SinglePoint -addmolnumber > "$SLURM_SUBMIT_DIR/ethene_blyp_transit.runall"
+
+chmod +x "$SLURM_SUBMIT_DIR/ethene_blyp_transit.runall"
+"$SLURM_SUBMIT_DIR/ethene_blyp_transit.runall"
+rm -rf "$SLURM_SUBMIT_DIR/ethene_blyp_transit.results/sp"*".t13"  "$SLURM_SUBMIT_DIR/ethene_blyp_transit.results/sp"*".logfile" "$SLURM_SUBMIT_DIR/ethene_blyp_transit.results/sp"*".pid" "$SLURM_SUBMIT_DIR/ethene_blyp_transit.results/sp"*".info" "$SLURM_SUBMIT_DIR/ethene_blyp_transit.results/sp"*".err" "$SLURM_SUBMIT_DIR/ethene_blyp_transit.results/sp"*".results" sp_*.adf "$SLURM_SUBMIT_DIR/ethene_blyp_transit.runall"
+mv main.t21 TAPE21
+srun rm -rf $SCM_TMPDIR 
