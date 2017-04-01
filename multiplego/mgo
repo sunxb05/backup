@@ -1,0 +1,4 @@
+#! /bin/bash
+
+script=$1
+cp -r /scistor/tc/xsn800/bin/multiplego $script
