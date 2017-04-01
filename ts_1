@@ -1,0 +1,21 @@
+#! /bin/bash
+binpath=/home/x2sun/bin
+script=$binpath/inputsample/TS
+coordinates=$1
+tsrcset=$2
+cp $coordinates coordinatefix
+cp $tsrcset tsrcfix
+coordinatenew=coordinatefix
+tsrcnew=tsrcfix
+sed -i '1d' $coordinatenew
+tsrc=$(<$tsrcnew)
+coordinate=$(<$coordinatenew)
+awk -v r="$coordinate" '{sub("PLACEHOLDERATOM",r,$0); print}' $script > input
+input_1=input
+awk -v r="$tsrc" '{sub("PLACETSRC",r,$0); print}' $input_1 > input.in
+
+sub -i input.in -t 48 -p 16
+
+rm coordinatefix
+rm tsrcfix
+rm input
