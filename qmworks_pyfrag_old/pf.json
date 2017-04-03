@@ -1,0 +1,14 @@
+{
+    "specific": {
+        "pyfrag": {
+            "type =": "IRC",
+            "output file =" : "",
+            "output file 2=" : "",
+            "frag1": "atom1",
+            "frag2": "atom2",
+            "print bond" : "1 7 1.5",
+            "print strain frag1" : "",
+            "print strain frag2" : "",
+            "save tape21s" : ""}}
+}
+
