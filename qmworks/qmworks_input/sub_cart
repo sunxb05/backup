@@ -1,0 +1,6 @@
+#!/bin/bash
+#SBATCH -t 10:00:00
+#SBATCH -N 1 --ntasks-per-node=3
+#SBATCH --constraint=haswell
+
+python bp86.py

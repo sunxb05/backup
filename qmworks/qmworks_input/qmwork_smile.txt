@@ -1,0 +1,6 @@
+l.ridder@esciencecenter.nl
+
+I have fixed the rdkitTools code, which is now called “molkit”.
+Also, I have updated your script, see attached. (The modified structure is written to tmp2.mol, which you can open in the gui)
+ 
+The improved molkit code is in the develop branch. So please update your develop version of qmworks (together with Felipe) and then you should be able to run the attached script ….
