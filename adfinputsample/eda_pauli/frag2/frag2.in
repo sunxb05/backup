@@ -1,0 +1,54 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -t 48:00:00
+#SBATCH --partition=tc5
+export SCM_TMPDIR=$TMPDIR
+export NSCM=16
+#export SCM_DEBUG=yes
+srun mkdir -p $SCM_TMPDIR
+cd $SCM_TMPDIR
+#export SCM_DEBUG=yes
+
+$ADFBIN/adf<<eor
+
+TITLE  PIPI
+
+XC
+  GGA OPBE
+END
+
+RELATIVISTIC SCALAR ZORA
+
+BECKEGRID
+  Quality VeryGood
+END
+
+BASIS
+TYPE TZ2P
+Core None
+END
+
+SCF
+ITERATIONS 150
+CONVERGE 0.00001
+MIXING 0.20
+END
+
+
+SYMMETRY  AUTO
+CHARGE    0 0
+
+
+ATOMS
+C       1.35436357       1.01937643       0.00000000
+H       1.98876357       0.96661643      -0.88776000
+H       1.98876357       0.96661643       0.88776000
+H       0.82889357       1.97567643       0.00000000
+H       1.15040357      -0.53359357       0.00000000
+END
+
+
+END INPUT
+eor
+
+mv TAPE21 /scistor/tc/xsn800/feco4_pauli/frag2.t21
