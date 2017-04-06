@@ -1,3 +1,3 @@
 adfinput examples
 
-for adf
+for adf calculation
