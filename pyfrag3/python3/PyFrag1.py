@@ -47,7 +47,7 @@ for key, val in vars(parser.parse_args()).items():
             if len(term) == 4:
                inputValue.append(({'type':term[1],'frag':term[0]},{'type':term[3],'frag':term[2]}))
             else:
-               inputValue.append(({'type':'INDEX','frag':term[1],'irrep':term[0],'index':term[2]},{'type':'INDEX','frag':term[3],'irrep':term[0],'index':term[4]}))
+               inputValue.append(({'type':'INDEX','frag':term[1],'irrep':term[0],'index':term[2]},{'type':'INDEX','frag':term[4],'irrep':term[3],'index':term[5]}))
          inputKeys[key] = inputValue
 
       elif key == 'population':

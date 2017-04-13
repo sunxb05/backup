@@ -251,7 +251,7 @@ class PyFragResult:
       else:
          irreporbNum = self.irrepOrbNum
       faIrrepone  = [[irrep for i in range(number)] for irrep, number in zip(self.irrepType, irreporbNum)]
-      return  [irrep for sublist in self.faIrrepone for irrep in sublist]
+      return  [irrep for sublist in faIrrepone for irrep in sublist]
 
    def GetOrbNum(self):
       # GetOrbNumbers including frozen core orbitals, this is necessary to read population, list like [3,4,5,12,13,14,15,23,24,26]
@@ -262,6 +262,15 @@ class PyFragResult:
       for nrShell, nrCore in zip(self.irrepOrbNum, coreOrbNum):
          orbSum += (nrShell + nrCore)
          orbNumbers.extend(list(range(orbSum - nrShell + 1, orbSum + 1)))
+      return orbNumbers
+
+   def GetFragOrbNum(self):
+      # GetOrbNumbers including frozen core orbitals, this is necessary to read population, list like [3,4,5,12,13,14,15,23,24,26]
+      #core orbital number corresponding to each irrep of complex symmetry
+      coreOrbNum           = self.complexResult.readkf('Symmetry', 'ncbs')
+      orbNumbers = []
+      for nrShell, nrCore in zip(self.irrepOrbNum, coreOrbNum):
+         orbNumbers.extend(range(nrCore + 1, nrShell + nrCore + 1))
       return orbNumbers
 
    def GetAtomNum(self, fragmentList, atoms):
@@ -290,13 +299,14 @@ class PyFragResult:
       return index
 
    def ReadOverlap(self, index_1, index_2):
-      #orbital numbers according to the symmetry of the complex
-      faOrb = self.complexResult.readkf('SFOs', 'isfo')
+      #orbital numbers according to the symmetry of the comple
+      faOrb    = self.GetFragOrbNum()
+      faIrrep  = self.GetFaIrrep()
       maxIndex = max(faOrb[index_1], faOrb[index_2])
       minIndex = min(faOrb[index_1], faOrb[index_2])
       index = maxIndex * (maxIndex - 1) / 2 + minIndex - 1
-      if self.GetFaIrrep([index_1]) == self.GetFaIrrep([index_2]):
-         self.overlap_matrix = self.complexResult.readkf(self.GetFaIrrep([index_1]), 'S-CoreSFO')
+      if faIrrep[index_1] == faIrrep[index_2]:
+         self.overlap_matrix = self.complexResult.readkf(faIrrep[index_1], 'S-CoreSFO')
          return abs(self.overlap_matrix[index])
       else:
          return 0
@@ -305,9 +315,9 @@ class PyFragResult:
       return self.complexResult.readkf('Ftyp '+str(self.orbFragment[index])+self.fragIrrep[index], 'eps')[self.fragOrb[index]-1]
 
    def ReadIrrepOI(self, irrep):
-      irrepOI              = [self.complexResult.readkf('Energy', 'Orb.Int. '+irrep)  for irrep in self.irrepType]
-      fitCoefficient       = self.Int / sum(irrepOI)
-      return fitCoefficient*self.complexResult.readkf('Energy', 'Orb.Int. '+irrep)
+      irrepOI              = [self.complexResult.readkf('Energy', 'Orb.Int. '+irreps)  for irreps in self.irrepType]
+      fitCoefficient       = self.OI / sum(irrepOI)
+      return 627.51*fitCoefficient*self.complexResult.readkf('Energy', 'Orb.Int. '+irrep)
 
    def ReadPopulation(self, index):
       orbNumbers =  self.GetOrbNum()
@@ -329,11 +339,11 @@ class PyFragResult:
 
    def GetOutputData(self, complexMolecule, outputData, inputKeys):
       #collect default energy parts for activation strain analysis
-      outputData['Pauli']   = self.Pauli
-      outputData['Elstat']  = self.Elstat
-      outputData['OI']      = self.OI
-      outputData['Int']     = self.Int
-      outputData['EnergyTotal']  = self.Int + outputData['StrainTotal']
+      outputData['Pauli']   = self.Pauli*627.51
+      outputData['Elstat']  = self.Elstat*627.51
+      outputData['OI']      = self.OI*627.51
+      outputData['Int']     = self.Int*627.51
+      outputData['EnergyTotal']  = self.Int*627.51 + outputData['StrainTotal']
       #collect user defined data
       for key, val in list(inputKeys.items()):
          value = []
@@ -364,7 +374,7 @@ class PyFragResult:
          elif key == 'angle':
             for od in val:
                atoms = self.GetAtomNum(inputKeys['fragment'], od['angleDef'])
-               value.append(complexMolecule[atoms[0]].angle(complexMolecule[atoms[1]], complexMolecule[atoms[2]]) - od['oriVal'])
+               value.append((complexMolecule[atoms[0]].angle(complexMolecule[atoms[1]], complexMolecule[atoms[2]]))*57.3 - od['oriVal'])
             outputData[key] = value
 
       return GetOutputTable(outputData)
