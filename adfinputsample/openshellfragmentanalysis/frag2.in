@@ -1,0 +1,49 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -t 48:00:00
+#SBATCH --partition=tc5
+export SCM_TMPDIR=$TMPDIR
+export NSCM=16
+srun mkdir -p $SCM_TMPDIR
+cd $SCM_TMPDIR
+
+$ADFBIN/adf<<eor
+TITLE  PIPI
+XC
+  GGA OPBE
+END
+
+BECKEGRID
+  Quality VeryGood
+END
+
+BASIS
+TYPE TZ2P
+Core None
+END
+
+SCF
+ITERATIONS 150
+CONVERGE 0.00001
+MIXING 0.20
+END
+
+SYMMETRY  ATOM
+CHARGE    0 0
+
+OCCUPATIONS
+S 4
+P 5
+END
+
+ATOMS
+F      -2.04710582       0.67190464      -0.59944404
+END
+
+END INPUT
+eor
+
+
+filename=$(basename "$SLURM_SUBMIT_DIR")
+cp TAPE21 $SLURM_SUBMIT_DIR/$filename.t21
+srun rm -rf $SCM_TMPDIR

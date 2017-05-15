@@ -1,0 +1,62 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -t 48:00:00
+#SBATCH --partition=tc5
+export SCM_TMPDIR=$TMPDIR
+export NSCM=16
+srun mkdir -p $SCM_TMPDIR
+cd $SCM_TMPDIR
+
+$ADFBIN/adf<<eor
+TITLE  PIPI
+XC
+  GGA OPBE
+END
+
+BECKEGRID
+  Quality VeryGood
+END
+
+BASIS
+TYPE TZ2P
+Core None
+END
+
+SCF
+ITERATIONS 0
+CONVERGE 0.00001
+MIXING 0.20
+END
+
+FRAGOCCUPATIONS
+f1
+E1 2//2
+A1 3//2
+SUBEND
+f2
+S 2//2
+P 2//3
+SUBEND
+END
+
+SYMMETRY  C(3V)
+CHARGE    0 0
+
+ATOMS
+C      -3.23901900       0.98595595       0.02457008 f=f1
+H      -4.06379418       0.40883398      -0.44184657 f=f1
+H      -3.17153509       0.72946786       1.10184121 f=f1
+H      -3.43884872       2.07172920      -0.08512131 f=f1
+F      -2.04710582       0.67190464      -0.59944404 f=f2
+END
+
+Fragments
+f1  /scistor/tc/xsn800/codetest/openshell/frag1.t21 
+f2  /scistor/tc/xsn800/codetest/openshell/frag2.t21 
+END
+END INPUT
+eor
+
+filename=$(basename "$SLURM_SUBMIT_DIR")
+cp TAPE21 $SLURM_SUBMIT_DIR/$filename.t21
+srun rm -rf $SCM_TMPDIR
