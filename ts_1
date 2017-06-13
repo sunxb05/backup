@@ -1,4 +1,5 @@
 #! /bin/bash
+#should use full path to submit job in lisa
 binpath=/home/x2sun/bin
 script=$binpath/inputsample/TS
 coordinates=$1
