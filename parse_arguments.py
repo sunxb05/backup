@@ -1,3 +1,4 @@
+#parse argument of ADF
 import os
 import sys
 import types
