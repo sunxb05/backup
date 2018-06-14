@@ -14,4 +14,4 @@ Include python2 and python3 version, either can be used from command line or cal
 Example use:
 startpython PyFrag.py  --ircpath structuresIRC_CH3N.irc --fragment 1 3 4 --fragment 2 5 --strain 0 --strain 0 --adfinput basis.type=DZ
 
-For the earlier version (PyFrag 2.0) please see http://www.few.vu.nl/~wolters/pyfrag/
+For the earlier version (PyFrag 2007) please see http://www.few.vu.nl/~xsn800/Home.html
