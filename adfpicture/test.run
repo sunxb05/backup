@@ -1,0 +1,17 @@
+#! /bin/sh
+
+"$ADFBIN/adf" <<eor
+GUIBONDS
+END
+
+BASIS
+type DZ
+core Large
+createoutput None
+END
+
+NOPRINT LOGFILE
+
+eor
+
+
