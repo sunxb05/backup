@@ -2,13 +2,15 @@
 
 SCRIPTPATH="$( cd "$(dirname "$1")" ; pwd -P )"
 
-dirNum="$( ls -lR | grep ^d | wc -l )"
+# coorNum="$( ls -lR | grep -v ^d | wc -l )"
+coorNum="$( cd $SCRIPTPATH/$1 ; ls -1 | wc -l )"
+echo $coorNum
 
 fileNum=1
 # adfinput ~/Desktop/test.adf&
 cd $SCRIPTPATH/$1
 
-while test "$fileNum" -le "$dirNum"
+while test "$fileNum" -le "$coorNum"
 do
   echo $fileNum
   if [ -e $fileNum ]; then
@@ -21,5 +23,5 @@ do
     cliclick w:500 c:320,400 c:. kd:cmd t:a kp:delete w:500 c:. kd:cmd t:w kp:enter
     cliclick w:3000
   fi
-fileNum=`expr $fileNum + 1`
+  fileNum=`expr $fileNum + 1`
 done
