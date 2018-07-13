@@ -22,7 +22,7 @@ os.mkdir(fileDir)
 os.chdir(fileDir)
 
 for Index, Molecule in enumerate(ircRawList):
-   coordFile = open(str(Index+1), "w")
+   coordFile = open(str(Index+1) + '.xyz', "w")
    for atom in Molecule[1:]:
       for coordinate in atom:
          coordFile.write(coordinate + '   ')
