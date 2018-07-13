@@ -28,3 +28,10 @@ for Index, Molecule in enumerate(ircRawList):
          coordFile.write(coordinate + '   ')
       coordFile.write('\n')
    coordFile.close()
+
+   coordFile = open(str(Index+1), "w")
+   for atom in Molecule[1:]:
+      for coordinate in atom:
+         coordFile.write(coordinate + '   ')
+      coordFile.write('\n')
+   coordFile.close()
