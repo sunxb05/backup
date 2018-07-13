@@ -14,7 +14,7 @@ do
   if [ -e $fileNum ]; then
     sublime $fileNum
     cliclick c:. kd:cmd t:a  kd:cmd t:c  w:500
-    adfinput ~/Desktop/test.adf&
+    adfinput ../test.adf&
     cliclick w:5000
     cliclick c:320,400 c:. kd:cmd t:v w:1000 c:. w:1000
     python3 ../screen.py $fileNum &
