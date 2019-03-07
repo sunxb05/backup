@@ -26,7 +26,6 @@ for i in loop:
     if re.compile(r'Input orientation:', re.IGNORECASE).search(gsscript):
         if re.compile(r'Input orientation:', re.IGNORECASE).search(gsscript):
             testcace=re.compile(r'Input orientation:'+r'.*?'+ r'Distance matrix', re.IGNORECASE|re.DOTALL).findall(gsscript)
-            print testcace
             spec = re.compile(r'Input orientation:'+r'.*?'+ r'Distance matrix', re.IGNORECASE|re.DOTALL).findall(gsscript)[i]
             spec = re.compile(r'Distance matrix (angstroms):'+r'.*', re.IGNORECASE).sub('', spec)
             spec = re.compile(r'Input orientation:'+r'.*', re.IGNORECASE).sub('', spec)
@@ -41,7 +40,8 @@ for i in loop:
 #atomnumber = len(spec)
 with open("irc_order.amv","a") as f:
      for i in range(len(loop)):
-         f.writelines("\n\n")
+         # f.writelines("\n\n")
+         f.writelines("\n")
          for j in range(atomnumber):
              f.writelines("\n")
              test= data[i][j]
